@@ -11,7 +11,7 @@ on:
 
 jobs:
   publish:
-    runs-on: runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         # run 2 copies of the current job in parallel
