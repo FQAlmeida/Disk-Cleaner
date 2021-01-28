@@ -10,21 +10,24 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  publish:
+    runs-on: runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [14.x, 15.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        # run 2 copies of the current job in parallel
+        # and they will load balance all specs
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+
+    - name: Use Node.js 14
+      uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '14'
+    
     - name: Install Packages
-      run: yarn
+      run: yarn install
+    
     - name: Publish Package
       run: yarn run publish
       env: 
