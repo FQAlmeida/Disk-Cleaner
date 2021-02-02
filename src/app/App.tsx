@@ -1,19 +1,19 @@
-import React, { Component } from "react"
-import Layout from "./layout/Layout"
+import React, { Component } from "react";
+import ExpressionTable from "./components/expression_table/ExpresionTable";
+import Layout from "./layout/Layout";
 
-import "./sass/App.sass"
+import "./sass/App.sass";
 
-interface AppState { }
-interface AppProps { }
-
-class App extends Component<AppProps, AppState> {
-    render() {
+class App extends Component {
+    render(): JSX.Element {
         return (
             <Layout>
-                Layout Child
+                <p>Disks</p>
+                <ExpressionTable />
+                <ExpressionTable />
             </Layout>
-        )
+        );
     }
 }
 
-export default App
+export default App;
