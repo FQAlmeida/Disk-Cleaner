@@ -42,7 +42,7 @@ class AppBar extends Component<unknown, AppBarState> {
                         </Typography>
                     </Toolbar>
                 </AppbarMUI>
-                <Drawer toggleDrawer={this.toggleDrawer} drawerState={this.state.drawer} />
+                <Drawer toggle_drawer={this.toggleDrawer} drawer_state={this.state.drawer} />
             </Fragment>
         );
     }

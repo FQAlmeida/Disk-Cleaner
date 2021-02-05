@@ -1,5 +1,6 @@
-import { EXPRESSION_FINDER } from "../../actions/expressions_finder/expresion_finder.action.type";
-import { Expression, IExpressionFinderAction } from "../../actions/expressions_finder/expression_finder.action";
+import { EXPRESSION_FINDER } from "../../actions/expression_finder/expression_finder.action.const";
+import { IExpressionFinderAction } from "../../actions/expression_finder/expression_finder.action.types";
+import { Expression } from "../../types/Expression";
 
 export interface IExpressionFinderState {
     expressions: Array<Expression>
@@ -12,9 +13,12 @@ export const expression_finder_initial_state: IExpressionFinderState = {
 export const expression_finder_reducer = (state: IExpressionFinderState = expression_finder_initial_state, action: IExpressionFinderAction): IExpressionFinderState => {
     switch (action.type) {
     case EXPRESSION_FINDER.ADD: {
+        const max_id = Math.max(...state.expressions.map((value) => value.id), 0);
+        console.log(max_id);
+        
         const new_expression = {
             ...action.expression,
-            id: Math.max(...state.expressions.map((value) => value.id)) + 1
+            id: max_id + 1
         };
         return {
             expressions: [

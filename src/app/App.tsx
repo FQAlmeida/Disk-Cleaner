@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ExpressionTable from "./components/expression_table/ExpresionTable";
+import ExpressionExceptionTable from "./components/expression_exception_table/ExpressionExceptionTable";
+import ExpressionFinderTable from "./components/expression_finder_table/ExpressionFinderTable";
 import Layout from "./layout/Layout";
 
 import "./sass/App.sass";
@@ -9,8 +10,8 @@ class App extends Component {
         return (
             <Layout>
                 <p>Disks</p>
-                <ExpressionTable />
-                <ExpressionTable />
+                <ExpressionFinderTable />
+                <ExpressionExceptionTable />
             </Layout>
         );
     }

@@ -1,5 +1,6 @@
-import { EXPRESSION_FINDER } from "./expresion_finder.action.type";
-import { Expression, IExpressionFinderAction } from "./expression_finder.action";
+import { Expression } from "../../types/Expression";
+import { EXPRESSION_FINDER } from "./expression_finder.action.const";
+import { IExpressionFinderAction } from "./expression_finder.action.types";
 
 export const expression_add = (expression: string): IExpressionFinderAction => {
     const new_expression: Expression = {

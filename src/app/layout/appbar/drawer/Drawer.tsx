@@ -5,19 +5,19 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import { Divider, List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 interface DrawerProps {
-    toggleDrawer: (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => void
-    drawerState: boolean
+    toggle_drawer: (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => void
+    drawer_state: boolean
 }
 
 class Drawer extends Component<DrawerProps> {
     render(): JSX.Element {
-        const { toggleDrawer, drawerState } = this.props;
+        const { toggle_drawer, drawer_state } = this.props;
         return (
-            <DrawerMUI anchor="left" open={drawerState} onClose={toggleDrawer(false)}>
+            <DrawerMUI anchor="left" open={drawer_state} onClose={toggle_drawer(false)}>
                 <div
                     role="presentation"
-                    onClick={toggleDrawer(false)}
-                    onKeyDown={toggleDrawer(false)}
+                    onClick={toggle_drawer(false)}
+                    onKeyDown={toggle_drawer(false)}
                 >
                     <List>
                         <ListItem button>

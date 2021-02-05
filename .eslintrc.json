@@ -33,13 +33,36 @@
             "error",
             "double"
         ],
+        "camelcase": ["error"],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            { "selector": "property", "format": ["snake_case"] }
+        ],
         "semi": [
             "error",
             "always"
         ],
-        "no-multiple-empty-lines": [2, {"max": 2, "maxEOF": 1, "maxBOF": 0}],
-        "eol-last": [2, "always"]
+        "no-multiple-empty-lines": [
+            2,
+            {
+                "max": 2,
+                "maxEOF": 1,
+                "maxBOF": 0
+            }
+        ],
+        "eol-last": [
+            2,
+            "always"
+        ]
     },
+    "overrides": [
+        {
+          "files": ["**/*.ts", "**/*.tsx"],
+          "rules": {
+            "camelcase": ["off"]
+          }
+        }
+    ],
     "settings": {
         "react": {
             "createClass": "createReactClass", // Regex for Component Factory to use,

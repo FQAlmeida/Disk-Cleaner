@@ -3,7 +3,7 @@ import {
     Grid as GridMUI
 } from "@material-ui/core";
 
-export type gridChildrenType = [JSX.Element, JSX.Element, JSX.Element]
+export type gridChildrenType = [unknown, unknown, unknown]
 
 interface GridProps {
     children: gridChildrenType
