@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
-    "skipLibCheck": true,
+    "strict": true,
+    "allowJs": false,
+    "module": "ES2020",
+    "skipLibCheck": false,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
@@ -11,11 +12,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
     },
     "jsx": "react"
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "exclude": ["*/**/webpack.*"]
 }

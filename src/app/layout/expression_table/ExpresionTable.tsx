@@ -15,7 +15,9 @@ import {
 } from "@material-ui/core";
 
 import ExpressionRow from "./expression_row/ExpressionRow";
-import { Expression } from "../../redux/types/Expression";
+import { Expression } from "../../../types/Expression";
+
+import "./sass/ExpressionTable.sass";
 
 interface ExpressionTableState {
     add_regex_value: string,
@@ -46,8 +48,6 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
         const { expressions, update_expression_state, delete_expression } = this.props;
         const { pagination } = this.state;
         const emptyRows = pagination.rows_per_page - Math.min(pagination.rows_per_page, expressions.length - pagination.page * pagination.rows_per_page);
-        console.log(emptyRows);
-
         const rows = expressions.slice(pagination.page * pagination.rows_per_page, pagination.page * pagination.rows_per_page + pagination.rows_per_page).map((expression, index) => {
             return (
                 <ExpressionRow expression={expression} update_expression_state={update_expression_state}
@@ -60,7 +60,7 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
             <Fragment>
                 {rows}
                 {emptyRows > 0 && (
-                    <TableRow style={{ height: 33 * emptyRows }}>
+                    <TableRow style={{ height: 39 * emptyRows }}>
                         <TableCell colSpan={3} />
                     </TableRow>
                 )}
@@ -68,10 +68,18 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
         );
     }
     onAddRegexButtonClick(): void {
-        const { add_expression } = this.props;
+        const { add_expression, expressions } = this.props;
         const { add_regex_value } = this.state;
         add_expression(add_regex_value);
-        this.setState(this.initial_state);
+        this.setState(state => {
+            return {
+                add_regex_value: this.initial_state.add_regex_value,
+                pagination: {
+                    rows_per_page: state.pagination.rows_per_page,
+                    page: Math.floor(expressions.length / state.pagination.rows_per_page)
+                }
+            };
+        });
     }
     onAddRegexTextChange(event: ChangeEvent<HTMLInputElement>): void {
         const new_value = event.target.value;
@@ -82,7 +90,7 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
             };
         });
     }
-    onChangePage(_: MouseEvent, page: number): void {
+    onChangePage(_: MouseEvent<HTMLButtonElement> | null, page: number): void {
         this.setState(state => {
             return {
                 ...state,
@@ -98,6 +106,14 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
         const { expressions } = this.props;
         return (
             <Container>
+                <TablePagination
+                    component="div"
+                    count={expressions.length}
+                    rowsPerPageOptions={[]}
+                    rowsPerPage={4}
+                    page={pagination.page}
+                    onChangePage={this.onChangePage}
+                />
                 <TableContainer component={Paper}>
                     <Table size="small">
                         <TableHead>
@@ -111,17 +127,9 @@ class ExpressionTable extends Component<ExpressionTableProps, ExpressionTableSta
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    component="div"
-                    count={expressions.length}
-                    rowsPerPageOptions={[]}
-                    rowsPerPage={4}
-                    page={pagination.page}
-                    onChangePage={this.onChangePage}
-                />
-                <div className="add-regex-form">
+                <div className="add_regex_form">
                     <TextField label="New Regex" variant="outlined" size="small" value={add_regex_value} onChange={this.onAddRegexTextChange} />
-                    <Button className="add-buttom" variant="contained" color="primary" onClick={this.onAddRegexButtonClick}>Add</Button>
+                    <Button className="add_buttom" variant="contained" color="primary" onClick={this.onAddRegexButtonClick}>Add</Button>
                 </div>
             </Container>
         );

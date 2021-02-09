@@ -3,7 +3,9 @@ import {
     Grid as GridMUI
 } from "@material-ui/core";
 
-export type gridChildrenType = [unknown, unknown, unknown]
+import "./sass/Grid.sass";
+
+export type gridChildrenType = [JSX.Element, JSX.Element, JSX.Element]
 
 interface GridProps {
     children: gridChildrenType
@@ -16,7 +18,7 @@ class Grid extends Component<GridProps>{
                 container
                 xl
                 direction="row"
-                style={{ height: "calc(100% - 64px)" }}
+                className="main_grid"
             >
                 <GridMUI
                     container

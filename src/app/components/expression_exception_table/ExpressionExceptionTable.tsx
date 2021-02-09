@@ -5,8 +5,8 @@ import { ThunkDispatch } from "redux-thunk";
 import { expression_add , expression_deactivate, expression_activate, expression_remove} from "../../redux/actions/expression_exception/expression_exception.action";
 import { connect, ConnectedProps } from "react-redux";
 import ExpressionTable from "../../layout/expression_table/ExpresionTable";
-import { Expression } from "../../redux/types/Expression";
-import { IExpressionExceptionAction } from "../../redux/actions/expression_exception/expression_exception.action.types";
+import { Expression } from "../../../types/Expression";
+import { ExpressionExceptionAction } from "../../redux/actions/expression_exception/expression_exception.action.types";
 
 interface StateToProps {
     expressions: Array<Expression>
@@ -25,7 +25,7 @@ const map_state_to_props = (state: rootState): StateToProps => {
     };
 };
 
-const map_dispatch_to_props = (dispatch: ThunkDispatch<rootState, undefined, IExpressionExceptionAction>): DispatchToProps => {
+const map_dispatch_to_props = (dispatch: ThunkDispatch<rootState, undefined, ExpressionExceptionAction>): DispatchToProps => {
     return {
         add_expression: async (expression: string) => {
             return dispatch(expression_add(expression));

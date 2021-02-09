@@ -1,20 +1,22 @@
 import { EXPRESSION_EXCEPTION } from "../../actions/expression_exception/expression_exception.action.const";
-import { IExpressionExceptionAction } from "../../actions/expression_exception/expression_exception.action.types";
-import { Expression } from "../../types/Expression";
+import { ExpressionExceptionAction } from "../../actions/expression_exception/expression_exception.action.types";
+import { Expression, } from "../../../../types/Expression";
 
-export interface IExpressionExceptionState {
+export interface ExpressionExceptionState {
     expressions: Array<Expression>
 }
 
-export const expression_exception_initial_state: IExpressionExceptionState = {
+export const expression_exception_initial_state: ExpressionExceptionState = {
     expressions: []
 };
 
-export const expression_exception_reducer = (state: IExpressionExceptionState = expression_exception_initial_state, action: IExpressionExceptionAction): IExpressionExceptionState => {
+export const expression_exception_reducer = (state: ExpressionExceptionState = expression_exception_initial_state, action: ExpressionExceptionAction): ExpressionExceptionState => {
     switch (action.type) {
     case EXPRESSION_EXCEPTION.ADD: {
         const max_id = Math.max(...state.expressions.map((value) => value.id), 0);
-        const new_expression = {
+        const old_expression  = state.expressions.find((expression) => expression.expression === action.expression.expression);
+        if(old_expression) break;
+        const new_expression: Expression = {
             ...action.expression,
             id: max_id + 1
         };
@@ -33,8 +35,10 @@ export const expression_exception_reducer = (state: IExpressionExceptionState = 
         };
     }
     case EXPRESSION_EXCEPTION.ACTIVATE: {
-        const new_expression = {
-            ...state.expressions.find((expression) => expression.id === action.expression.id),
+        const expression_temp = state.expressions.find((expression) => expression.id === action.expression.id);
+        if (!expression_temp) break;
+        const new_expression: Expression = {
+            ...expression_temp,
             state: true
         };
         return {
@@ -45,8 +49,10 @@ export const expression_exception_reducer = (state: IExpressionExceptionState = 
         };
     }
     case EXPRESSION_EXCEPTION.DEACTIVATE: {
-        const new_expression = {
-            ...state.expressions.find((expression) => expression.id === action.expression.id),
+        const expression_temp = state.expressions.find((expression) => expression.id === action.expression.id);
+        if (!expression_temp) break;
+        const new_expression: Expression = {
+            ...expression_temp,
             state: false
         };
         return {
@@ -56,7 +62,6 @@ export const expression_exception_reducer = (state: IExpressionExceptionState = 
             ].sort((expression_a, expression_b) => expression_a.id - expression_b.id)
         };
     }
-    default:
-        return state;
     }
+    return state;
 };

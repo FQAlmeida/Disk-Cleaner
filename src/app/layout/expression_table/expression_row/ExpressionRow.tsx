@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 
 import DeleteIcon from "@material-ui/icons/Delete";
-import { Expression } from "../../../redux/types/Expression";
+import { Expression } from "../../../../types/Expression";
 
 interface ExpressionRowProps {
     expression: Expression

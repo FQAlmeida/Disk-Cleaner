@@ -1,4 +1,5 @@
 import { app, BrowserWindow } from "electron";
+import {typedIpcMain} from "./ipc/expressions/main/expression.ipc.main";
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
@@ -7,11 +8,16 @@ if (require("electron-squirrel-startup")) { // eslint-disable-line global-requir
     app.quit();
 }
 
+typedIpcMain.handle("update_expression", (_, updated_expressions) => {
+    console.log(updated_expressions);
+    
+});
+
 const createWindow = (): void => {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         height: 1024,
-        width: 1280,
+        width: 1680,
     });
 
     // and load the index.html of the app.

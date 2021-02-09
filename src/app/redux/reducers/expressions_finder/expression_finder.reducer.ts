@@ -1,22 +1,22 @@
 import { EXPRESSION_FINDER } from "../../actions/expression_finder/expression_finder.action.const";
-import { IExpressionFinderAction } from "../../actions/expression_finder/expression_finder.action.types";
-import { Expression } from "../../types/Expression";
+import { ExpressionFinderAction } from "../../actions/expression_finder/expression_finder.action.types";
+import { Expression } from "../../../../types/Expression";
 
-export interface IExpressionFinderState {
+export interface ExpressionFinderState {
     expressions: Array<Expression>
 }
 
-export const expression_finder_initial_state: IExpressionFinderState = {
+export const expression_finder_initial_state: ExpressionFinderState = {
     expressions: []
 };
 
-export const expression_finder_reducer = (state: IExpressionFinderState = expression_finder_initial_state, action: IExpressionFinderAction): IExpressionFinderState => {
+export const expression_finder_reducer = (state: ExpressionFinderState = expression_finder_initial_state, action: ExpressionFinderAction): ExpressionFinderState => {
     switch (action.type) {
     case EXPRESSION_FINDER.ADD: {
         const max_id = Math.max(...state.expressions.map((value) => value.id), 0);
-        console.log(max_id);
-        
-        const new_expression = {
+        const old_expression = state.expressions.find((expression) => expression.expression === action.expression.expression);
+        if (old_expression) break;
+        const new_expression: Expression = {
             ...action.expression,
             id: max_id + 1
         };
@@ -35,8 +35,10 @@ export const expression_finder_reducer = (state: IExpressionFinderState = expres
         };
     }
     case EXPRESSION_FINDER.ACTIVATE: {
-        const new_expression = {
-            ...state.expressions.find((expression) => expression.id === action.expression.id),
+        const expression_temp = state.expressions.find((expression) => expression.id === action.expression.id);
+        if (!expression_temp) break;
+        const new_expression: Expression = {
+            ...expression_temp,
             state: true
         };
         return {
@@ -47,8 +49,10 @@ export const expression_finder_reducer = (state: IExpressionFinderState = expres
         };
     }
     case EXPRESSION_FINDER.DEACTIVATE: {
-        const new_expression = {
-            ...state.expressions.find((expression) => expression.id === action.expression.id),
+        const expression_temp = state.expressions.find((expression) => expression.id === action.expression.id);
+        if (!expression_temp) break;
+        const new_expression: Expression = {
+            ...expression_temp,
             state: false
         };
         return {
@@ -58,7 +62,6 @@ export const expression_finder_reducer = (state: IExpressionFinderState = expres
             ].sort((expression_a, expression_b) => expression_a.id - expression_b.id)
         };
     }
-    default:
-        return state;
     }
+    return state;
 };

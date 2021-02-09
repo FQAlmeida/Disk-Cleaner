@@ -16,7 +16,7 @@ class Layout extends Component<LayoutProps> {
 
     render() : JSX.Element{
         return (
-            <Box className="main-box">
+            <Box className="main_box">
                 <AppBar />
                 <Grid>
                     {this.props.children}

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
-import { IExpressionFinderAction } from "../../redux/actions/expression_finder/expression_finder.action.types";
+import { ExpressionFinderAction } from "../../redux/actions/expression_finder/expression_finder.action.types";
 import { rootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
 import { expression_add, expression_remove, expression_activate, expression_deactivate } from "../../redux/actions/expression_finder/expression_finder.action";
 import { connect, ConnectedProps } from "react-redux";
 import ExpressionTable from "../../layout/expression_table/ExpresionTable";
-import { Expression } from "../../redux/types/Expression";
+import { Expression } from "../../../types/Expression";
 
 interface StateToProps {
     expressions: Array<Expression>
@@ -25,7 +25,7 @@ const map_state_to_props = (state: rootState): StateToProps => {
     };
 };
 
-const map_dispatch_to_props = (dispatch: ThunkDispatch<rootState, undefined, IExpressionFinderAction>): DispatchToProps => {
+const map_dispatch_to_props = (dispatch: ThunkDispatch<rootState, undefined, ExpressionFinderAction>): DispatchToProps => {
     return {
         add_expression: async (expression: string) => {
             return dispatch(expression_add(expression));
