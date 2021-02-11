@@ -27,7 +27,37 @@
  */
 
 import AppRender from "./app/index";
+import { IpcRendererService } from "./ipc/IpcRenderer";
+import { ExpressionsConfigFile } from "./ipc/types/ExpressionConfigFile";
 
 console.log("👋 This message is being logged by \"renderer.js\", included via webpack");
 
+async function run_ipc() {
+    const config_aux: ExpressionsConfigFile = {
+        finder: [
+            { id: 1, expression: "node_modules", state: true },
+            { id: 2, expression: "node_modules_!", state: true },
+            { id: 3, expression: "node_modules_2", state: false },
+            { id: 4, expression: "node_modules_3", state: false },
+            { id: 5, expression: "node_modules_4", state: true }
+        ],
+        exception: [
+            { id: 1, expression: "node_modules", state: true },
+            { id: 2, expression: "node_modules_!", state: true },
+            { id: 3, expression: "node_modules_2", state: false },
+            { id: 4, expression: "node_modules_3", state: false },
+            { id: 5, expression: "node_modules_4", state: true }
+        ]
+    };
+    const ipc = new IpcRendererService();
+    console.log("retrieving");
+    
+    ipc.send<undefined, ExpressionsConfigFile>("expressions-retrieve").then(value => {
+        console.log(value);
+    });
+    console.log("saving");
+    
+    ipc.send<ExpressionsConfigFile>("expressions-save", {params: config_aux});
+}
+run_ipc();
 AppRender();

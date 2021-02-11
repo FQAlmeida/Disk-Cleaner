@@ -1,17 +1,41 @@
 const rules = require("./webpack.rules");
 const plugins = require("./webpack.plugins");
 
+const isDevelopment = process.env.NODE_ENV !== "production"
+
 rules.push({
-    test: /\.s[ac]ss$/i,
-    use: [
-    // Creates `style` nodes from JS strings
-        "style-loader",
-        // Translates CSS into CommonJS
-        "css-loader",
-        // Compiles Sass to CSS
-        "sass-loader",
-    ],
-});
+    test: /\.module\.s(a|c)ss$/,
+    loader: [
+        isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+        {
+            loader: 'css-loader',
+            options: {
+                modules: true,
+                sourceMap: isDevelopment
+            }
+        },
+        {
+            loader: 'sass-loader',
+            options: {
+                sourceMap: isDevelopment
+            }
+        }
+    ]
+},
+    {
+        test: /\.s(a|c)ss$/,
+        exclude: /\.module.(s(a|c)ss)$/,
+        loader: [
+            isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+            'css-loader',
+            {
+                loader: 'sass-loader',
+                options: {
+                    sourceMap: isDevelopment
+                }
+            }
+        ]
+    });
 
 module.exports = {
     module: {
@@ -19,6 +43,6 @@ module.exports = {
     },
     plugins: plugins,
     resolve: {
-        extensions: [".js", ".ts", ".jsx", ".tsx", ".css"]
+        extensions: [".js", ".ts", ".jsx", ".tsx", ".css", ".sass"]
     },
 };

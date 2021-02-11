@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
+    "target": "es2017",
     "strict": true,
     "allowJs": false,
-    "module": "ES2020",
+    "module": "ESNext",
     "skipLibCheck": false,
     "esModuleInterop": true,
     "noImplicitAny": true,
@@ -12,12 +13,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
-      "*": ["node_modules/*"],
+      "&": ["node_modules/*"],
+      "@": ["/app"]
     },
     "jsx": "react"
   },
   "include": [
     "src/**/*"
   ],
-  "exclude": ["*/**/webpack.*"]
 }
