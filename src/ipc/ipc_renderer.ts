@@ -1,4 +1,5 @@
 import { IpcRenderer } from "electron";
+import { expressions_channels } from "./ipc_channels.type";
 import { IpcRequest } from "./types/IpcChannelInterface";
 
 export class IpcRendererService {
@@ -17,7 +18,7 @@ export class IpcRendererService {
         return this.ipc_renderer;
     }
 
-    public send<RQ = unknown, RS = unknown>(channel: string, request: IpcRequest<RQ> = {}): Promise<RS> {
+    public send<RQ = unknown, RS = unknown>(channel: expressions_channels, request: IpcRequest<RQ> = {}): Promise<RS> {
         const ipc_renderer = this.getIpcRenderer();
         const response_channel = request.response_channel ?? `${channel}-response-${new Date().getTime()}`;
 

@@ -13,8 +13,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {
-      "&": ["node_modules/*"],
-      "@": ["/app"]
+      "&": ["node_modules/*"]
     },
     "jsx": "react"
   },

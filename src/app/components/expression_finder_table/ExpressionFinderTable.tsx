@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
-import { ExpressionFinderAction } from "../../redux/actions/expression_finder/expression_finder.action.types";
-import { rootState } from "../../redux/store";
+import { RootState } from "../../redux/store";
 import { ThunkDispatch } from "redux-thunk";
-import { expression_add, expression_remove, expression_activate, expression_deactivate } from "../../redux/actions/expression_finder/expression_finder.action";
+import { expression_add, expression_remove, expression_activate, expression_deactivate } from "../../redux/actions/expression/expression.action";
 import { connect, ConnectedProps } from "react-redux";
 import ExpressionTable from "../../layout/expression_table/ExpresionTable";
 import { Expression } from "../../../types/Expression";
+import { ExpressionAction } from "../../redux/actions/expression/expression.action.types";
 
 interface StateToProps {
     expressions: Array<Expression>
@@ -19,25 +19,25 @@ interface DispatchToProps {
     deactivate_expression: (expression: Expression) => void
 }
 
-const map_state_to_props = (state: rootState): StateToProps => {
+const map_state_to_props = (state: RootState): StateToProps => {
     return {
-        expressions: state.expression_finder.expressions
+        expressions: state.expressions.finder
     };
 };
 
-const map_dispatch_to_props = (dispatch: ThunkDispatch<rootState, undefined, ExpressionFinderAction>): DispatchToProps => {
+const map_dispatch_to_props = (dispatch: ThunkDispatch<RootState, undefined, ExpressionAction>): DispatchToProps => {
     return {
         add_expression: async (expression: string) => {
-            return dispatch(expression_add(expression));
+            return dispatch(expression_add(expression, "FIND"));
         },
         remove_expression: async (expression: Expression) => {
-            return dispatch(expression_remove(expression));
+            return dispatch(expression_remove({...expression, category: "FIND"}));
         },
         activate_expression: async (expression: Expression) => {
-            return dispatch(expression_activate(expression));
+            return dispatch(expression_activate({...expression, category: "FIND"}));
         },
         deactivate_expression: async (expression: Expression) => {
-            return dispatch(expression_deactivate(expression));
+            return dispatch(expression_deactivate({...expression, category: "FIND"}));
         }
     };
 };
@@ -46,7 +46,7 @@ const connector = connect<
     StateToProps,
     DispatchToProps,
     unknown,
-    rootState
+    RootState
 >(map_state_to_props, map_dispatch_to_props);
 
 type PropsFromRedux = ConnectedProps<typeof connector>

@@ -2,7 +2,7 @@ import { app, BrowserWindow, BrowserWindowConstructorOptions, ipcMain } from "el
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from "electron-devtools-installer";
-import {  ExpressionsRetrieveChannel, ExpressionsSaveChannel } from "./ipc/expressions/main/expression.ipc.main";
+import {  ExpressionsRetrieveChannel, ExpressionsSaveChannel } from "./ipc/expressions/expression.ipc.main";
 import { IpcChannelInterface } from "./ipc/types/IpcChannelInterface";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.

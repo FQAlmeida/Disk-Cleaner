@@ -1,11 +1,12 @@
 import { IpcMainEvent } from "electron";
-import { IpcChannelInterface, IpcRequest } from "../../types/IpcChannelInterface";
+import { IpcChannelInterface, IpcRequest } from "../types/IpcChannelInterface";
 import { readFile } from "fs";
-import { ExpressionsConfigFile } from "../../types/ExpressionConfigFile";
+import { ExpressionsStructure } from "../../types/ExpressionStructure";
 import { writeFile } from "original-fs";
+import {expressions_channels} from "../ipc_channels.type";
 
 export class ExpressionsRetrieveChannel implements IpcChannelInterface {
-    getName(): string {
+    getName(): expressions_channels {
         return "expressions-retrieve";
     }
 
@@ -17,18 +18,18 @@ export class ExpressionsRetrieveChannel implements IpcChannelInterface {
                 console.error(err);
                 return;
             }
-            const expressions: ExpressionsConfigFile = JSON.parse(data.toString());
+            const expressions: ExpressionsStructure = JSON.parse(data.toString());
             event.sender.send(response_channel, expressions);
         });
     }
 }
 
-export class ExpressionsSaveChannel implements IpcChannelInterface<ExpressionsConfigFile>{
-    getName(): string {
+export class ExpressionsSaveChannel implements IpcChannelInterface<ExpressionsStructure>{
+    getName(): expressions_channels {
         return "expressions-save";
     }
 
-    handle(event: IpcMainEvent, request: IpcRequest<ExpressionsConfigFile>): void {
+    handle(event: IpcMainEvent, request: IpcRequest<ExpressionsStructure>): void {
         const response_channel: string = request.response_channel ?? `${this.getName()}-response`;
 
         writeFile("./src/config/expressions.json", JSON.stringify(request.params, null, "\t"), () => {
