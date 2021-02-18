@@ -21,7 +21,7 @@ export class IpcRendererService {
     public send<RQ = unknown, RS = unknown>(channel: expressions_channels, request: IpcRequest<RQ> = {}): Promise<RS> {
         const ipc_renderer = this.getIpcRenderer();
         const response_channel = request.response_channel ?? `${channel}-response-${new Date().getTime()}`;
-
+        request.response_channel = response_channel;
         ipc_renderer.send(channel, request);
 
         // This method returns a promise which will be resolved when the response has arrived.
