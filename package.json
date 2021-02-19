@@ -9,8 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext=.ts,.tsx .",
-    "make:win": "electron-forge make --arch=x64 --platform=win32 -d"
+    "lint": "eslint --ext=.ts,.tsx ."
   },
   "keywords": [],
   "author": "fqa",
@@ -64,7 +63,7 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
+                  "html": "./public/index.html",
                   "js": "./src/renderer.ts",
                   "name": "main_window"
                 }
