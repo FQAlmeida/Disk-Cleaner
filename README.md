@@ -11,6 +11,7 @@ https://tauri.app/v1/guides/getting-started/prerequisites#setting-up-linux
 ```bash
 rustup update
 cargo install tauri-cli
+npm install
 ```
 
 
