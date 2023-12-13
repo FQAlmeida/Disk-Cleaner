@@ -36,7 +36,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "disk-cleaner",
+        "title": "Disk Cleaner",
         "width": 800,
         "height": 600
       }
