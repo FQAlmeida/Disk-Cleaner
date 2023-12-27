@@ -595,6 +595,7 @@ dependencies = [
  "sysinfo",
  "tauri",
  "tauri-build",
+ "walkdir",
 ]
 
 [[package]]

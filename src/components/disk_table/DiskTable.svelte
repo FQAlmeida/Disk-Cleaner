@@ -24,7 +24,7 @@
         <TableHeadCell>Disk Capacity</TableHeadCell>
         <TableHeadCell>Available Space</TableHeadCell>
     </TableHead>
-    <TableBody class="divide-y">
+    <TableBody tableBodyClass="divide-y">
         {#each disks as disk}
             <TableBodyRow>
                 <TableBodyCell class="!p-4">
