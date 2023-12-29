@@ -3,20 +3,7 @@
         RecursiveTreeView,
         type TreeViewNode,
     } from "@skeletonlabs/skeleton";
-    export let node: TreeViewNode[] = [
-        {
-            id: "0",
-            content: "item 1",
-            lead: "icon",
-            children: [
-                {
-                    id: "01",
-                    content: "item 2",
-                    lead: "icon",
-                },
-            ],
-        },
-    ];
+    export let node: TreeViewNode[];
 </script>
 
-<RecursiveTreeView selection multiple nodes={node}></RecursiveTreeView>
+<RecursiveTreeView selection multiple relational padding="py-1 px-1" indent="ml-2" nodes={node} />
