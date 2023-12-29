@@ -27,6 +27,7 @@ enum ElementType {
 }
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct ElementInfo {
+    mount_point: String,
     name: String,
     parent: String,
     element_type: ElementType,
@@ -80,9 +81,8 @@ fn main() {
             let handle = app.handle();
             let _id = app.listen_global("load_file_tree", move |event| {
                 if let Some(data) = event.payload() {
-                    dbg!(&data);
                     let disk = serde_json::from_str::<DiskInfo>(data).unwrap();
-                    for element in fs::read_dir(disk.mount_point)
+                    for element in fs::read_dir(&disk.mount_point)
                         .unwrap()
                         .into_iter()
                         .filter_map(|e| e.ok())
@@ -93,7 +93,10 @@ fn main() {
                                 "load_file_tree_result",
                                 ElementInfo {
                                     name: element.file_name().to_str().unwrap().to_owned(),
-                                    parent: String::from("root"),
+                                    mount_point: disk.mount_point.clone(),
+                                    parent: element.path().to_str().unwrap().to_owned(),
+                                    // .replace("\\\\", ":")
+                                    // .replace("/", ":"),
                                     size: element.metadata().unwrap().len(),
                                     element_type: if file_type.is_file() {
                                         ElementType::File
@@ -102,8 +105,47 @@ fn main() {
                                     },
                                 },
                             );
+                            if file_type.is_dir() {
+                                let contents = fs::read_dir(&element.path());
+                                if !contents.is_ok() {
+                                    continue;
+                                }
+                                for element_child in contents
+                                    .unwrap()
+                                    .into_iter()
+                                    .filter_map(|e| e.ok())
+                                    .filter(|e| e.metadata().is_ok())
+                                {
+                                    if let Ok(file_type_child) = element_child.file_type() {
+                                        let _ = handle.emit_all(
+                                            "load_file_tree_result",
+                                            ElementInfo {
+                                                name: element_child
+                                                    .file_name()
+                                                    .to_str()
+                                                    .unwrap()
+                                                    .to_owned(),
+                                                mount_point: disk.mount_point.clone(),
+                                                parent: element_child
+                                                    .path()
+                                                    .to_str()
+                                                    .unwrap()
+                                                    .to_owned(),
+                                                // .replace("\\\\", ":")
+                                                // .replace("/", ":"),
+                                                size: element_child.metadata().unwrap().len(),
+                                                element_type: if file_type_child.is_file() {
+                                                    ElementType::File
+                                                } else {
+                                                    ElementType::Folder
+                                                },
+                                            },
+                                        );
+                                    }
+                                }
+                            }
+                            // dbg!(&element);
                         }
-                        // dbg!(&element);
                     }
                 }
             });

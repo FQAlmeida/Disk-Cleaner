@@ -1,8 +1,11 @@
+const { skeleton } = require("@skeletonlabs/tw-plugin")
+
 /** @type {import('tailwindcss').Config}*/
 const config = {
-  content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}',
+    require("path").join(require.resolve("@skeletonlabs/skeleton"), "../**/*.{html,js,svelte,ts}")],
 
-  plugins: [require('flowbite/plugin')],
+  plugins: [require('flowbite/plugin'), skeleton({ themes: { preset: ["skeleton"] } })],
 
   darkMode: 'class',
 
