@@ -44,7 +44,7 @@ const build_new_tree = (children: FileTreeContent, target_path: string[], payloa
         modification_date: new Date(Date.now()),
         size: payload.size
     } as FileDesc;
-    
+
     if (payload.element_type == "Folder") {
         info = { ...info, children: {} } as FolderDesc;
     }
@@ -59,7 +59,7 @@ const unlisten = await listen('load_file_tree_result', (event) => {
     let payload = event.payload as Payload;
 
     available_file_trees.update((value) => {
-        let disk_index = value.findIndex((v) => v.disk.name == payload.mount_point);
+        let disk_index = value.findIndex((v) => v.disk.mount_point === payload.mount_point);
         let disk_file_tree = value[disk_index].children;
         const target_pieces = payload.parent.replaceAll(payload.mount_point, "").split(/\\|\//);
         const target_path = target_pieces.slice(0, -1);
